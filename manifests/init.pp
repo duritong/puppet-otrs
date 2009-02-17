@@ -1,11 +1,28 @@
-# modules/otrs2/manifests/init.pp - manage skeleton stuff
+# modules/otrs/manifests/init.pp - manage otrs stuff
 # Copyright (C) 2007 admin@immerda.ch
-#
+# GPLv3
 
-# modules_dir { "otrs2": }
+# modules_dir { "otrs": }
 
-class otrs2 {
+class otrs {
+    case $operatingsystem {
+        gentoo: { include otrs::gentoo }
+        default: { include otrs::base }
+    }
+}
 
-    package{otrs2: ensure => installed, }
+class otrs::base {
+    package{'otrs':
+        ensure => installed,
+    }
+}
 
+class otrs::gentoo inherits otrs::base {
+    Package[otrs]{
+        category => 'some-category',
+    }
+
+    #conf.d file if needed
+    # needs module gentoo
+    #gentoo::etcconfd { otrs: require => "Package[otrs]", notify => "Service[otrs]"}
 }
