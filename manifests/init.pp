@@ -26,3 +26,5 @@ class otrs::gentoo inherits otrs::base {
     # needs module gentoo
     #gentoo::etcconfd { otrs: require => "Package[otrs]", notify => "Service[otrs]"}
 }
+
+apache::vhost::file{ 'otrs.conf': }
