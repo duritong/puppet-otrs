@@ -26,6 +26,7 @@ class otrs::base {
     include perl::extensions::dbd_mysql
     include perl::extensions::net_dns
     include perl::extensions::net_imap_simple_ssl
+    include perl::extensions::bsd_resource
 
     package{'otrs':
         ensure => present,
