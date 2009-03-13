@@ -34,6 +34,17 @@ class otrs::base {
             Package['mod_perl'], Perl::Module['DBD-mysql'] ],
         notify => Exec['restart_otrs_cron'],
     }
+
+    file{'/etc/sysconfig/otrs':
+        source => [ "puppet://$server/files/otrs/sysconfig/${fqdn}/otrs",
+                    "puppet://$server/files/otrs/sysconfig/otrs",
+                    "puppet://$server/otrs/sysconfig/${operatingsystem}/otrs",
+                    "puppet://$server/otrs/sysconfig/otrs" ],
+        require => Package['otrs'],
+        notify => Service['otrs'],
+        owner => root, group => 0, mode => 644;
+    }
+
     service{'otrs':
         ensure => running,
         enable => true,
@@ -46,6 +57,7 @@ class otrs::base {
                     "puppet://$server/files/otrs/httpd/otrs.conf",
                     "puppet://$server/otrs/httpd/otrs.conf" ],
         require => [ Package['otrs'], Package['apache'] ],
+        notify => Service['apache'],
         owner => root, group => 0, mode => 0644;
     }
 
@@ -54,6 +66,7 @@ class otrs::base {
                     "puppet://$server/files/otrs/config/Config.pm",
                     "puppet://$server/otrs/config/Config.pm" ],
         require => Package['otrs'], 
+        notify => Service['otrs'],
         owner => root, group => 0, mode => 0644;
     }
 
