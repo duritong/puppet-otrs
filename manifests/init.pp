@@ -21,7 +21,7 @@ class otrs::base {
     if $otrs_nolocal_mysql {
         include mysql::disable
     } else {
-        include mysql
+        include mysql::server
     }
     include perl::extensions::dbd_mysql
     include perl::extensions::net_dns
