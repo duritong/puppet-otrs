@@ -38,8 +38,8 @@ class otrs::base {
     file{'/etc/sysconfig/otrs':
         source => [ "puppet://$server/files/otrs/sysconfig/${fqdn}/otrs",
                     "puppet://$server/files/otrs/sysconfig/otrs",
-                    "puppet://$server/otrs/sysconfig/${operatingsystem}/otrs",
-                    "puppet://$server/otrs/sysconfig/otrs" ],
+                    "puppet://$server/modules/otrs/sysconfig/${operatingsystem}/otrs",
+                    "puppet://$server/modules/otrs/sysconfig/otrs" ],
         require => Package['otrs'],
         notify => Service['otrs'],
         owner => root, group => 0, mode => 644;
@@ -55,7 +55,7 @@ class otrs::base {
     file{'/etc/httpd/conf.d/otrs.conf':
         source => [ "puppet://$server/files/otrs/httpd/${fqdn}/otrs.conf",
                     "puppet://$server/files/otrs/httpd/otrs.conf",
-                    "puppet://$server/otrs/httpd/otrs.conf" ],
+                    "puppet://$server/modules/otrs/httpd/otrs.conf" ],
         require => [ Package['otrs'], Package['apache'] ],
         notify => Service['apache'],
         owner => root, group => 0, mode => 0644;
@@ -64,7 +64,7 @@ class otrs::base {
     file{'/opt/otrs/Kernel/Config.pm':
         source => [ "puppet://$server/files/otrs/config/${fqdn}/Config.pm",
                     "puppet://$server/files/otrs/config/Config.pm",
-                    "puppet://$server/otrs/config/Config.pm" ],
+                    "puppet://$server/modules/otrs/config/Config.pm" ],
         require => Package['otrs'], 
         notify => Service['otrs'],
         owner => root, group => 0, mode => 0644;
