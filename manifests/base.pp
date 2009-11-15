@@ -47,3 +47,20 @@ class otrs::base {
     file{'/opt/otrs/Kernel/Config.pm':
         source => [ "puppet://$server/modules/site-otrs/config/${fqdn}/Config.pm",
                     "puppet://$server/modules/site-otrs/config/Config.pm",
+                    "puppet://$server/modules/otrs/config/Config.pm" ],
+        require => Package['otrs'], 
+        notify => Service['otrs'],
+        owner => root, group => 0, mode => 0644;
+    }
+
+    file{'/opt/otrs/.gnupg':
+        ensure => directory,
+        require => [ Package['otrs'], Package['apache'] ],
+        owner => apache, group => apache, mode => 0700;
+    }
+
+    exec{'restart_otrs_cron':
+        command => '/opt/otrs/bin/Cron.sh restart otrs',
+        refreshonly => true,
+    }
+}
