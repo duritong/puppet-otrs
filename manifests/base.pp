@@ -19,10 +19,10 @@ class otrs::base {
     }
 
     file{'/etc/sysconfig/otrs':
-        source => [ "puppet://$server/modules/site-otrs/sysconfig/${fqdn}/otrs",
-                    "puppet://$server/modules/site-otrs/sysconfig/otrs",
-                    "puppet://$server/modules/otrs/sysconfig/${operatingsystem}/otrs",
-                    "puppet://$server/modules/otrs/sysconfig/otrs" ],
+        source => [ "puppet:///modules/site-otrs/sysconfig/${fqdn}/otrs",
+                    "puppet:///modules/site-otrs/sysconfig/otrs",
+                    "puppet:///modules/otrs/sysconfig/${operatingsystem}/otrs",
+                    "puppet:///modules/otrs/sysconfig/otrs" ],
         require => Package['otrs'],
         notify => Service['otrs'],
         owner => root, group => 0, mode => 644;
@@ -36,18 +36,18 @@ class otrs::base {
     }
 
     file{'/etc/httpd/conf.d/otrs.conf':
-        source => [ "puppet://$server/modules/site-otrs/httpd/${fqdn}/otrs.conf",
-                    "puppet://$server/modules/site-otrs/httpd/otrs.conf",
-                    "puppet://$server/modules/otrs/httpd/otrs.conf" ],
+        source => [ "puppet:///modules/site-otrs/httpd/${fqdn}/otrs.conf",
+                    "puppet:///modules/site-otrs/httpd/otrs.conf",
+                    "puppet:///modules/otrs/httpd/otrs.conf" ],
         require => [ Package['otrs'], Package['apache'] ],
         notify => Service['apache'],
         owner => root, group => 0, mode => 0644;
     }
 
     file{'/opt/otrs/Kernel/Config.pm':
-        source => [ "puppet://$server/modules/site-otrs/config/${fqdn}/Config.pm",
-                    "puppet://$server/modules/site-otrs/config/Config.pm",
-                    "puppet://$server/modules/otrs/config/Config.pm" ],
+        source => [ "puppet:///modules/site-otrs/config/${fqdn}/Config.pm",
+                    "puppet:///modules/site-otrs/config/Config.pm",
+                    "puppet:///modules/otrs/config/Config.pm" ],
         require => Package['otrs'], 
         notify => Service['otrs'],
         owner => root, group => 0, mode => 0644;
