@@ -12,5 +12,5 @@
 #
 
 class otrs {
-    include otrs::base
+  include otrs::base
 }
