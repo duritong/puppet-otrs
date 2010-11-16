@@ -6,15 +6,15 @@ class otrs::base {
   } else {
     include mysql::server
   }
-  include perl::extensions::dbd_mysql
-  include perl::extensions::net_dns
-  include perl::extensions::net_imap_simple_ssl
-  include perl::extensions::bsd_resource
+  require perl::extensions::dbd_mysql
+  require perl::extensions::net_dns
+  require perl::extensions::net_imap_simple_ssl
+  require perl::extensions::bsd_resource
+  require perl::extensions::xml_parser
 
   package{'otrs':
     ensure => present,
-    require => [ Package['mysql-server'], 
-      Package['mod_perl'], Perl::Module['DBD-mysql'] ],
+    require => Package['mysql-server','mod_perl'],
     notify => Exec['restart_otrs_cron'],
   }
 
