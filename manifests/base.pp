@@ -11,6 +11,13 @@ class otrs::base {
   require perl::extensions::net_imap_simple_ssl
   require perl::extensions::bsd_resource
   require perl::extensions::xml_parser
+  require perl::extensions::datetime
+  require perl::extensions::json_xs
+  require perl::extensions::pdf_api2
+  require perl::extensions::text_csv_xs
+  require perl::extensions::gd
+  require perl::extensions::gdgraph
+  require perl::extensions::gdtextutil
 
   package{'otrs':
     ensure => present,
