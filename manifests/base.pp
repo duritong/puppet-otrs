@@ -18,6 +18,7 @@ class otrs::base {
   require perl::extensions::gd
   require perl::extensions::gdgraph
   require perl::extensions::gdtextutil
+  require perl::extensions::timedate
 
   package{'otrs':
     ensure => present,
