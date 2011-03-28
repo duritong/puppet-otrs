@@ -13,4 +13,8 @@
 
 class otrs {
   include otrs::base
+  
+  if $use_shorewall {
+    include shorewall::rules::out::pop3
+  }
 }
