@@ -61,10 +61,25 @@ class otrs::base {
     owner => root, group => 0, mode => 0644;
   }
 
-  file{'/opt/otrs/.gnupg':
-    ensure => directory,
+  file{
+    '/opt/otrs/.gnupg':
+      ensure => directory,
+      require => [ Package['otrs'], Package['apache'] ],
+      owner => apache, group => apache, mode => 0600;
+    '/var/log/otrs':
+      ensure => directory,
+      require => [ Package['otrs'], Package['apache'] ],
+      owner => otrs, group => apache, mode => 0660;
+    '/var/log/otrs/otrs.log':
+      ensure => present,
+      require => [ Package['otrs'], Package['apache'] ],
+      owner => otrs, group => apache, mode => 0660;      
+  }
+
+  file{'/etc/logrotate.d/otrs':
+    source => 'puppet:///modules/otrs/logrotate/otrs',
     require => [ Package['otrs'], Package['apache'] ],
-    owner => apache, group => apache, mode => 0700;
+    owner => root, group => 0, mode => 0644;
   }
 
   exec{'restart_otrs_cron':

@@ -1,0 +1,5 @@
+/var/log/otrs/*.log {
+    missingok
+    notifempty
+    sharedscripts
+}
