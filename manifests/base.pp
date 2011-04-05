@@ -57,8 +57,13 @@ class otrs::base {
                 "puppet:///modules/site-otrs/config/Config.pm",
                 "puppet:///modules/otrs/config/Config.pm" ],
     require => Package['otrs'], 
-    notify => Service['otrs'],
+    notify => [Service['otrs'], Exec['RebuildConfig.pl']],
     owner => root, group => 0, mode => 0644;
+  }
+  exec{'RebuildConfig.pl':
+    command => '/opt/otrs/bin/otrs.RebuildConfig.pl',
+    refreshonly => true,
+    notify => Service['otrs'],
   }
 
   file{
