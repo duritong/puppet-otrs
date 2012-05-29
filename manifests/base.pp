@@ -27,8 +27,8 @@ class otrs::base {
   }
 
   file{'/etc/sysconfig/otrs':
-    source => [ "puppet:///modules/site-otrs/sysconfig/${fqdn}/otrs",
-                "puppet:///modules/site-otrs/sysconfig/otrs",
+    source => [ "puppet:///modules/site_otrs/sysconfig/${fqdn}/otrs",
+                "puppet:///modules/site_otrs/sysconfig/otrs",
                 "puppet:///modules/otrs/sysconfig/${operatingsystem}/otrs",
                 "puppet:///modules/otrs/sysconfig/otrs" ],
     require => Package['otrs'],
@@ -44,8 +44,8 @@ class otrs::base {
   }
 
   file{'/etc/httpd/conf.d/otrs.conf':
-    source => [ "puppet:///modules/site-otrs/httpd/${fqdn}/otrs.conf",
-                "puppet:///modules/site-otrs/httpd/otrs.conf",
+    source => [ "puppet:///modules/site_otrs/httpd/${fqdn}/otrs.conf",
+                "puppet:///modules/site_otrs/httpd/otrs.conf",
                 "puppet:///modules/otrs/httpd/otrs.conf" ],
     require => [ Package['otrs'], Package['apache'] ],
     notify => Service['apache'],
@@ -53,8 +53,8 @@ class otrs::base {
   }
 
   file{'/opt/otrs/Kernel/Config.pm':
-    source => [ "puppet:///modules/site-otrs/config/${fqdn}/Config.pm",
-                "puppet:///modules/site-otrs/config/Config.pm",
+    source => [ "puppet:///modules/site_otrs/config/${fqdn}/Config.pm",
+                "puppet:///modules/site_otrs/config/Config.pm",
                 "puppet:///modules/otrs/config/Config.pm" ],
     require => Package['otrs'], 
     notify => [Service['otrs'], Exec['otrs.RebuildConfig.pl']],
