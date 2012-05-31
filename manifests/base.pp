@@ -1,7 +1,7 @@
 class otrs::base {
   include mod_perl
   include gpg
-  if $otrs_nolocal_mysql {
+  if $otrs::nolocal_mysql {
     include mysql::disable
   } else {
     include mysql::server
@@ -27,9 +27,9 @@ class otrs::base {
   }
 
   file{'/etc/sysconfig/otrs':
-    source => [ "puppet:///modules/site_otrs/sysconfig/${fqdn}/otrs",
+    source => [ "puppet:///modules/site_otrs/sysconfig/${::fqdn}/otrs",
                 "puppet:///modules/site_otrs/sysconfig/otrs",
-                "puppet:///modules/otrs/sysconfig/${operatingsystem}/otrs",
+                "puppet:///modules/otrs/sysconfig/${::operatingsystem}/otrs",
                 "puppet:///modules/otrs/sysconfig/otrs" ],
     require => Package['otrs'],
     notify => Service['otrs'],
@@ -44,7 +44,7 @@ class otrs::base {
   }
 
   file{'/etc/httpd/conf.d/otrs.conf':
-    source => [ "puppet:///modules/site_otrs/httpd/${fqdn}/otrs.conf",
+    source => [ "puppet:///modules/site_otrs/httpd/${::fqdn}/otrs.conf",
                 "puppet:///modules/site_otrs/httpd/otrs.conf",
                 "puppet:///modules/otrs/httpd/otrs.conf" ],
     require => [ Package['otrs'], Package['apache'] ],
@@ -53,10 +53,10 @@ class otrs::base {
   }
 
   file{'/opt/otrs/Kernel/Config.pm':
-    source => [ "puppet:///modules/site_otrs/config/${fqdn}/Config.pm",
+    source => [ "puppet:///modules/site_otrs/config/${::fqdn}/Config.pm",
                 "puppet:///modules/site_otrs/config/Config.pm",
                 "puppet:///modules/otrs/config/Config.pm" ],
-    require => Package['otrs'], 
+    require => Package['otrs'],
     notify => [Service['otrs'], Exec['otrs.RebuildConfig.pl']],
     owner => otrs, group => apache, mode => 0640;
   }
@@ -78,7 +78,7 @@ class otrs::base {
     '/var/log/otrs/otrs.log':
       ensure => present,
       require => [ Package['otrs'], Package['apache'] ],
-      owner => otrs, group => apache, mode => 0660;      
+      owner => otrs, group => apache, mode => 0660;
   }
 
   file{'/etc/logrotate.d/otrs':
