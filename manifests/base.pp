@@ -19,6 +19,9 @@ class otrs::base {
   require perl::extensions::gdgraph
   require perl::extensions::gdtextutil
   require perl::extensions::timedate
+  require perl::extensions::ldap
+  require perl::extensions::yaml_libyaml
+  require perl::extensions::crypt_ssleay
 
   package{'otrs':
     ensure => present,
