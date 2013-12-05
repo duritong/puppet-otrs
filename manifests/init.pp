@@ -12,11 +12,14 @@
 #
 
 class otrs(
-  $nolocal_mysql = false
+  $local_mysql = true
 ) {
   include otrs::base
 
   if hiera('use_shorewall',false) {
     include shorewall::rules::out::pop3
+    if !$local_mysql {
+      include shorewall::rules::out::mysql
+    }
   }
 }

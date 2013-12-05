@@ -1,9 +1,7 @@
 class otrs::base {
   include mod_perl
   include gpg
-  if $otrs::nolocal_mysql {
-    include mysql::disable
-  } else {
+  if $otrs::local_mysql {
     include mysql::server
   }
   require perl::extensions::dbd_mysql
