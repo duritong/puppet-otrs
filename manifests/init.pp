@@ -11,12 +11,14 @@
 # the Free Software Foundation.
 #
 
+# manage otrs
 class otrs(
-  $local_mysql = true
+  $local_mysql    = true,
+  $use_shorewall  = false,
 ) {
   include otrs::base
 
-  if hiera('use_shorewall',false) {
+  if $use_shorewall {
     include shorewall::rules::out::pop3
     if !$local_mysql {
       include shorewall::rules::out::mysql
