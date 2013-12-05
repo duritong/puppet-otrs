@@ -3,9 +3,6 @@
 class otrs::base {
   include mod_perl
   include gpg
-  if $otrs::local_mysql {
-    include mysql::server
-  }
   require perl::extensions::dbd_mysql
   require perl::extensions::net_dns
   require perl::extensions::net_imap_simple_ssl
@@ -25,8 +22,17 @@ class otrs::base {
 
   package{'otrs':
     ensure  => present,
-    require => Package['mysql-server','mod_perl'],
     notify  => Exec['restart_otrs_cron'],
+  }
+  if $otrs::local_mysql {
+    include mysql::server
+    Package['otrs'] {
+      require => Package['mysql-server','mod_perl'],
+    }
+  } else {
+    Package['otrs'] {
+      require => Package['mod_perl'],
+    }
   }
 
   file{'/etc/sysconfig/otrs':
